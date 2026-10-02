@@ -9,14 +9,14 @@
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 body{margin:0;min-height:100vh;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;color:#fff;background:radial-gradient(circle at 50% -10%,hsl(var(--h) 70% 25%),transparent 45%),linear-gradient(160deg,hsl(var(--h) 55% 13%),#050812);transition:background .8s;user-select:none;overflow-x:hidden}
 .wrap{max-width:1100px;margin:auto;padding:12px}
-.top{text-align:center;padding:8px 0}
-.coins{font-size:clamp(36px,10vw,64px);font-weight:950;text-shadow:0 0 28px var(--accent)}
-.stats{display:flex;justify-content:center;gap:8px;flex-wrap:wrap}.pill{background:#ffffff14;border:1px solid #ffffff12;border-radius:99px;padding:6px 12px;font-size:13px;font-weight:800}
-.evo{background:#0007;border:1px solid #fff1;border-radius:18px;padding:11px 14px;margin:10px 0}.evo .row{display:flex;justify-content:space-between;font-size:13px;font-weight:800;margin-bottom:7px}
+.top{text-align:center;padding:8px 0;width:min(100%,760px);margin:0 auto}
+.coins{font-size:clamp(40px,11vw,68px);font-weight:950;text-shadow:0 0 28px var(--accent);text-align:center}
+.stats{display:flex;justify-content:center;align-items:center;gap:8px;flex-wrap:wrap;margin-inline:auto}.pill{background:#ffffff14;border:1px solid #ffffff12;border-radius:99px;padding:6px 12px;font-size:13px;font-weight:800}
+.evo{background:#0007;border:1px solid #fff1;border-radius:18px;padding:11px 14px;margin:10px auto;width:min(100%,760px)}.evo .row{display:flex;justify-content:space-between;font-size:13px;font-weight:800;margin-bottom:7px}
 .bar{height:12px;background:#ffffff18;border-radius:9px;overflow:hidden}.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--accent),hsl(calc(var(--h) + 45) 95% 65%));transition:width .35s}
 .main{display:grid;gap:14px;grid-template-columns:1fr}@media(min-width:820px){.main{grid-template-columns:1fr 1.25fr}}
-.stage{text-align:center;padding:8px;position:relative}
-#btn{width:min(72vw,310px);aspect-ratio:1;border-radius:50%;border:0;cursor:pointer;color:#fff;font-weight:950;font-size:25px;letter-spacing:2px;background:radial-gradient(circle at 30% 25%,hsl(calc(var(--h) + 30) 95% 74%),hsl(var(--h) 88% 48%) 58%,hsl(var(--h) 80% 28%));box-shadow:0 14px 0 hsl(var(--h) 80% 20%),0 0 70px hsl(var(--h) 90% 50%/.5);transition:transform .08s,box-shadow .08s;display:flex;flex-direction:column;align-items:center;justify-content:center;margin:10px auto;touch-action:manipulation}
+.stage{text-align:center;padding:8px;position:relative;width:min(100%,760px);margin:0 auto}
+#btn{width:min(82vw,360px);aspect-ratio:1;border-radius:50%;border:0;cursor:pointer;color:#fff;font-weight:950;font-size:25px;letter-spacing:2px;background:radial-gradient(circle at 30% 25%,hsl(calc(var(--h) + 30) 95% 74%),hsl(var(--h) 88% 48%) 58%,hsl(var(--h) 80% 28%));box-shadow:0 14px 0 hsl(var(--h) 80% 20%),0 0 70px hsl(var(--h) 90% 50%/.5);transition:transform .08s,box-shadow .08s;display:flex;flex-direction:column;align-items:center;justify-content:center;margin:10px auto;touch-action:manipulation}
 #btn .em{font-size:min(30vw,125px);line-height:1}
 #btn.tier2,#btn.tier3,#btn.tier4,#btn.tier5,#btn.tier6,#btn.tier7,#btn.tier8,#btn.tier9,#btn.tier10,#btn.tier11,#btn.tier12,#btn.tier13,#btn.tier14,#btn.tier15,#btn.tier16,#btn.tier17,#btn.tier18,#btn.tier19,#btn.tier20,#btn.tier21,#btn.tier22,#btn.tier23,#btn.tier24,#btn.tier25,#btn.tier26,#btn.tier27,#btn.tier28,#btn.tier29,#btn.tier30{border-radius:50%;clip-path:none;transform:none}
 #btn.tier7{box-shadow:0 0 0 10px #ffffff18,0 0 70px hsl(var(--h) 90% 50%/.8)}
@@ -97,8 +97,7 @@ body{margin:0;min-height:100vh;font-family:system-ui,-apple-system,Segoe UI,Robo
 <div class="extraCard"><h4>🐾 Mascote</h4><div class="pet"><span class="big" id="petEmoji">🥚</span><div><b id="petName">Sem mascote</b><p id="petDesc">Abra baús para encontrar mascotes.</p></div></div><button class="extraBtn" id="petBtn">Escolher mascote</button></div>
 <div class="extraCard"><h4>🏅 Título</h4><p>Seu título acompanha sua evolução.</p><b id="titleName">Novato</b></div>
 </div></div></div>
-<div class="list" id="list-s" style="display:none">
-        <div class="panel">
+<div class="list" id="list-s" style="display:none">        <div class="panel">
           <h3>📊 Seu perfil</h3>
           <div class="statgrid">
             <div class="statbox">🖱️ Cliques<b id="pClicks">0</b></div>
@@ -197,8 +196,7 @@ const ACH=[
 {n:'Primeiro clique',d:'Clique 1 vez',f:s=>s.clicks>=1},{n:'100 moedas',d:'Ganhe 100',f:s=>s.total>=100},
 {n:'1.000 moedas',d:'Ganhe 1.000',f:s=>s.total>=1e3},{n:'10.000 moedas',d:'Ganhe 10.000',f:s=>s.total>=1e4},
 {n:'1 milhão',d:'Ganhe 1M',f:s=>s.total>=1e6},{n:'1.000 cliques',d:'Clique 1.000 vezes',f:s=>s.clicks>=1e3},
-{n:'Mestre do clique',d:'10.000 cliques',f:s=>s.clicks>=1e4},{n:'Combo máximo',d:'Combo de 60',f:s=>s.maxCombo>=60},
-{n:'Comprador',d:'Compre 10 melhorias',f:s=>lvSum()>=10},{n:'Caçador de estrelas',d:'Pegue 5 estrelas',f:s=>s.stars>=5},
+{n:'Mestre do clique',d:'10.000 cliques',f:s=>s.clicks>=1e4},{n:'Combo máximo',d:'Combo de 60',f:s=>s.maxCombo>=60},{n:'Comprador',d:'Compre 10 melhorias',f:s=>lvSum()>=10},{n:'Caçador de estrelas',d:'Pegue 5 estrelas',f:s=>s.stars>=5},
 {n:'Bilionário',d:'Ganhe 1 bilhão',f:s=>s.total>=1e9},{n:'Lenda viva',d:'Chegue à Lenda',f:s=>evoIdx()>=9},
 {n:'Renascido',d:'Faça um prestígio',f:s=>s.prestige>=1}];
 
@@ -297,8 +295,7 @@ const BUTTON_TIERS=[
 {at:1e34,cls:'tier21',e:'🌋',name:'Botão Vulcânico'},
 {at:1e36,cls:'tier22',e:'🧬',name:'Botão Evoluído'},
 {at:1e38,cls:'tier23',e:'✨',name:'Botão Celestial'},
-{at:1e40,cls:'tier24',e:'🛡️',name:'Botão Guardião'},
-{at:1e42,cls:'tier25',e:'⚔️',name:'Botão Titânico'},
+{at:1e40,cls:'tier24',e:'🛡️',name:'Botão Guardião'},{at:1e42,cls:'tier25',e:'⚔️',name:'Botão Titânico'},
 {at:1e44,cls:'tier26',e:'🔮',name:'Botão Mítico'},
 {at:1e46,cls:'tier27',e:'🏛️',name:'Botão Ancestral'},
 {at:1e48,cls:'tier28',e:'😇',name:'Botão Divino'},

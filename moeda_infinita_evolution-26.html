@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Moeda Infinita — Evolution</title>
+<style>
+:root{--h:210;--accent:hsl(var(--h) 85% 55%);box-sizing:border-box}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;min-height:100vh;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;color:#fff;background:radial-gradient(circle at 50% -10%,hsl(var(--h) 70% 25%),transparent 45%),linear-gradient(160deg,hsl(var(--h) 55% 13%),#050812);transition:background .8s;user-select:none;overflow-x:hidden}
+.wrap{max-width:1100px;margin:auto;padding:12px}
+.top{text-align:center;padding:8px 0}
+.coins{font-size:clamp(36px,10vw,64px);font-weight:950;text-shadow:0 0 28px var(--accent)}
+.stats{display:flex;justify-content:center;gap:8px;flex-wrap:wrap}.pill{background:#ffffff14;border:1px solid #ffffff12;border-radius:99px;padding:6px 12px;font-size:13px;font-weight:800}
+.evo{background:#0007;border:1px solid #fff1;border-radius:18px;padding:11px 14px;margin:10px 0}.evo .row{display:flex;justify-content:space-between;font-size:13px;font-weight:800;margin-bottom:7px}
+.bar{height:12px;background:#ffffff18;border-radius:9px;overflow:hidden}.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--accent),hsl(calc(var(--h) + 45) 95% 65%));transition:width .35s}
+.main{display:grid;gap:14px;grid-template-columns:1fr}@media(min-width:820px){.main{grid-template-columns:1fr 1.25fr}}
+.stage{text-align:center;padding:8px;position:relative}
+#btn{width:min(72vw,310px);aspect-ratio:1;border-radius:50%;border:0;cursor:pointer;color:#fff;font-weight:950;font-size:25px;letter-spacing:2px;background:radial-gradient(circle at 30% 25%,hsl(calc(var(--h) + 30) 95% 74%),hsl(var(--h) 88% 48%) 58%,hsl(var(--h) 80% 28%));box-shadow:0 14px 0 hsl(var(--h) 80% 20%),0 0 70px hsl(var(--h) 90% 50%/.5);transition:transform .08s,box-shadow .08s;display:flex;flex-direction:column;align-items:center;justify-content:center;margin:10px auto;touch-action:manipulation}
+#btn .em{font-size:min(30vw,125px);line-height:1}
+#btn.tier2,#btn.tier3,#btn.tier4,#btn.tier5,#btn.tier6,#btn.tier7,#btn.tier8,#btn.tier9,#btn.tier10,#btn.tier11,#btn.tier12,#btn.tier13,#btn.tier14,#btn.tier15,#btn.tier16,#btn.tier17,#btn.tier18,#btn.tier19,#btn.tier20,#btn.tier21,#btn.tier22,#btn.tier23,#btn.tier24,#btn.tier25,#btn.tier26,#btn.tier27,#btn.tier28,#btn.tier29,#btn.tier30{border-radius:50%;clip-path:none;transform:none}
+#btn.tier7{box-shadow:0 0 0 10px #ffffff18,0 0 70px hsl(var(--h) 90% 50%/.8)}
+#btn.tier11{box-shadow:0 0 0 14px #ffd34d33,0 0 90px #ffd34d66}
+#btn.tier12{box-shadow:0 0 0 8px #ffffff22,0 0 100px hsl(var(--h) 90% 60%/.9)}
+#btn.tier13{box-shadow:0 0 0 10px #ffffff18,0 0 110px hsl(var(--h) 95% 60%/.9)}
+#btn.tier14{box-shadow:0 0 0 12px #ffffff18,0 0 120px hsl(var(--h) 95% 60%/.9)}
+#btn.tier15{box-shadow:0 0 0 14px #ffffff18,0 0 130px hsl(var(--h) 95% 60%/.9)}
+#btn.tier16{box-shadow:0 0 0 16px #ffffff18,0 0 140px hsl(var(--h) 95% 60%/.9)}
+#btn.tier17{box-shadow:0 0 0 18px #ffffff18,0 0 150px hsl(var(--h) 95% 60%/.9)}
+#btn.tier18{box-shadow:0 0 0 20px #ffffff18,0 0 160px hsl(var(--h) 95% 60%/.9)}
+#btn.tier19{box-shadow:0 0 0 22px #ffffff18,0 0 170px hsl(var(--h) 95% 60%/.9)}
+#btn.tier20{box-shadow:0 0 0 24px #ffffff18,0 0 180px hsl(var(--h) 95% 60%/.9)}
+#btn.tier21{box-shadow:0 0 0 26px #ffffff18,0 0 190px hsl(var(--h) 95% 60%/.9)}
+#btn.tier22{box-shadow:0 0 0 28px #ffffff18,0 0 200px hsl(var(--h) 95% 60%/.9)}
+#btn.p{transform:translateY(9px) scale(.96);box-shadow:0 4px 0 hsl(var(--h) 80% 20%),0 0 100px hsl(var(--h) 95% 60%/.8)}
+.combo{height:46px;font-weight:950;color:#ffd34d;font-size:18px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;text-shadow:0 0 12px #ffd34d88}.comboBar{width:min(260px,70vw);height:7px;background:#ffffff18;border-radius:99px;overflow:hidden}.comboBar i{display:block;height:100%;width:0;background:#ffd34d;border-radius:99px;transition:width .12s}.buffs{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;min-height:26px}.buff{background:#ffd34d;color:#222;border-radius:99px;padding:4px 10px;font-size:12px;font-weight:900}
+.tabs{display:flex;gap:5px;margin-bottom:8px;overflow:auto}.tabs button,.small{flex:1;white-space:nowrap;padding:10px;border:1px solid #fff1;border-radius:12px;background:#ffffff12;color:#fff;font-weight:800;cursor:pointer;font-size:13px}.tabs button.on{background:var(--accent)}.small:disabled{opacity:.5;cursor:not-allowed}
+.list{display:grid;gap:8px;max-height:62vh;overflow-y:auto;padding-right:2px}.card{display:grid;grid-template-columns:44px 1fr auto;gap:9px;align-items:center;background:#0007;border-radius:14px;padding:10px;border:1px solid #ffffff12}.card .ic{font-size:29px;text-align:center}.card b{font-size:14px}.card small{display:block;opacity:.7;font-size:12px;margin-top:2px}.card .fx{color:#7dffb0;font-size:12px;font-weight:800}
+.buybox{display:flex;align-items:center;gap:4px;justify-content:flex-end}.buy,.qtybtn,.maxbtn{border:0;border-radius:9px;padding:8px 9px;font-weight:900;font-size:11px;background:#ffffff15;color:#fff;cursor:pointer}.buy{min-width:70px}.qtybtn{width:28px;padding:8px 0;background:#ffffff12}.qty{min-width:24px;text-align:center;font-size:11px;font-weight:900}.maxbtn{background:#ffd34d;color:#222}.buy.can{background:linear-gradient(#3ddc84,#1fa860);color:#fff}.buy:disabled,.qtybtn:disabled,.maxbtn:disabled{opacity:.4;cursor:not-allowed}.card.pulse{animation:pulse .45s}@keyframes pulse{40%{transform:scale(1.03);box-shadow:0 0 30px #3ddc84}}
+.panel{background:#0006;border:1px solid #fff1;border-radius:16px;padding:11px;margin-top:8px}.panel h3{margin:2px 0 9px;font-size:15px}.mission{display:grid;grid-template-columns:34px 1fr auto;gap:8px;align-items:center;padding:9px;background:#ffffff09;border-radius:12px;margin:6px 0}.mission small{display:block;opacity:.7}.claim{border:0;border-radius:9px;padding:8px;background:#ffffff16;color:#777;font-weight:800}.claim.can{background:#ffd34d;color:#222}
+.ach{display:grid;grid-template-columns:repeat(auto-fill,minmax(145px,1fr));gap:8px}.ach div{background:#0004;border-radius:12px;padding:9px;font-size:12px;opacity:.4}.ach div.ok{opacity:1;background:#ffd34d22;border:1px solid #ffd34d80}
+
+/* Todos os 30 níveis permanecem circulares e estáticos. */
+#btn.tier2,#btn.tier3,#btn.tier4,#btn.tier5,#btn.tier6,#btn.tier7,#btn.tier8,#btn.tier9,#btn.tier10,#btn.tier11,#btn.tier12,#btn.tier13,#btn.tier14,#btn.tier15,#btn.tier16,#btn.tier17,#btn.tier18,#btn.tier19,#btn.tier20,#btn.tier21,#btn.tier22,#btn.tier23,#btn.tier24,#btn.tier25,#btn.tier26,#btn.tier27,#btn.tier28,#btn.tier29,#btn.tier30{border-radius:50%;transform:none;}
+#btn.tier13{box-shadow:0 0 24px #ffd34d88}#btn.tier14{box-shadow:0 0 26px #7dd3fc88}#btn.tier15{box-shadow:0 0 28px #ff7ac888}#btn.tier16{box-shadow:0 0 30px #ffe06688}#btn.tier17{box-shadow:0 0 32px #9b8cff88}#btn.tier18{box-shadow:0 0 34px #8b5cf688}#btn.tier19{box-shadow:0 0 36px #ffd34d99}#btn.tier20{box-shadow:0 0 38px #60a5fa99}#btn.tier21{box-shadow:0 0 40px #fb923c99}#btn.tier22{box-shadow:0 0 42px #34d39999}#btn.tier23{box-shadow:0 0 44px #f0abfc99}#btn.tier24{box-shadow:0 0 46px #93c5fd99}#btn.tier25{box-shadow:0 0 48px #f8717199}#btn.tier26{box-shadow:0 0 50px #a78bfa99}#btn.tier27{box-shadow:0 0 52px #fbbf2499}#btn.tier28{box-shadow:0 0 54px #fef08a99}#btn.tier29{box-shadow:0 0 56px #c4b5fd99}#btn.tier30{box-shadow:0 0 60px #38bdf899}
+.foot{display:flex;gap:7px;margin-top:10px}.fl{position:fixed;pointer-events:none;font-weight:950;font-size:23px;text-shadow:0 2px 7px #000;animation:up 1s forwards;z-index:50}@keyframes up{to{transform:translateY(-90px) scale(1.1);opacity:0}}
+#toast{position:fixed;left:50%;top:calc(12px + env(safe-area-inset-top));transform:translate(-50%,-160%);background:#111d;backdrop-filter:blur(8px);border:1px solid #fff3;padding:10px 16px;border-radius:14px;font-weight:800;font-size:14px;transition:.4s;z-index:60;text-align:center;max-width:92vw}#toast.show{transform:translate(-50%,0)}
+#star{position:fixed;font-size:58px;cursor:pointer;z-index:40;display:none;animation:spin 1.2s infinite linear;filter:drop-shadow(0 0 18px gold)}@keyframes spin{50%{transform:scale(1.25) rotate(20deg)}}
+.modal{position:fixed;inset:0;background:#000b;display:none;place-items:center;z-index:100;padding:18px}.modal.show{display:grid}.modalbox{width:min(500px,95vw);background:linear-gradient(160deg,#161b2a,#090c14);border:1px solid #fff2;border-radius:20px;padding:20px;text-align:center;box-shadow:0 20px 80px #000}.modalbox h2{margin-top:0}.modalbox button{border:0;border-radius:12px;padding:11px 16px;font-weight:900;cursor:pointer;background:var(--accent);color:#fff;margin:4px}
+.extrasgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:8px}.extraCard{background:#ffffff0b;border:1px solid #ffffff12;border-radius:14px;padding:10px}.extraCard h4{margin:0 0 6px}.extraCard p{margin:4px 0;font-size:12px;opacity:.78}.extraBtn{border:0;border-radius:10px;padding:8px 10px;font-weight:900;cursor:pointer;background:var(--accent);color:#fff}.extraBtn:disabled{opacity:.4;cursor:not-allowed}.pet{display:flex;gap:8px;align-items:center}.pet .big{font-size:30px}.choice{display:grid;gap:5px;margin-top:6px}.choice button{border:1px solid #fff2;background:#ffffff0d;color:#fff;border-radius:9px;padding:7px;text-align:left;font-weight:800;cursor:pointer}.choice button.on{background:#ffd34d;color:#222}.labResult{font-weight:900;color:#7dffb0;min-height:18px}.statgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:7px}.statbox{background:#ffffff0c;border-radius:12px;padding:9px;font-size:12px}.statbox b{display:block;font-size:18px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <div class="coins">🪙 <span id="coins">0</span></div>
+    <div class="stats">
+      <span class="pill">⚡ <span id="cps">0</span>/s</span>
+      <span class="pill">👆 <span id="cpc">1</span>/clique</span>
+      <span class="pill">⭐ Nível <span id="lvl">1</span></span>
+      <span class="pill">💎 <span id="gems">0</span></span>
+    </div>
+  </div>
+
+  <div class="evo"><div class="row"><span id="evoName"></span><span id="evoNext"></span></div><div class="bar"><i id="evoBar"></i></div></div>
+
+  <div class="main">
+    <div class="stage">
+      <div class="buffs" id="buffs"></div>
+      <button id="btn"><span class="em" id="em">🪙</span>CLICAR</button>
+      <div class="combo" id="combo"><span id="comboText"></span><div class="comboBar"><i id="comboBar"></i></div></div>
+      <button class="small" id="bonus">🎁 Ativar 2x grátis</button>
+      <div class="panel">
+        <h3>💎 Prestígio</h3>
+        <div id="prestigeText">Junte moedas para ganhar Gemas e reiniciar em troca de um multiplicador permanente.</div>
+        <button class="small" id="prestige">💎 Fazer Prestígio</button>
+      </div>
+    </div>
+
+    <div>
+      <div class="tabs">
+        <button class="on" data-t="c">👆 Cliques</button>
+        <button data-t="a">🤖 Automáticos</button>
+        <button data-t="m">🎯 Missões</button>
+        <button data-t="q">🏆 Conquistas</button>
+        <button data-t="s">📊 Perfil</button><button data-t="x">🚀 Extras</button>
+      </div>
+      <div class="list" id="list-c"></div>
+      <div class="list" id="list-a" style="display:none"></div>
+      <div class="list" id="list-m" style="display:none"><div class="panel"><h3>🎯 Missões</h3><div id="missions"></div></div></div>
+      <div class="list" id="list-q" style="display:none"><div class="ach" id="ach"></div></div>
+      <div class="list" id="list-x" style="display:none">
+<div class="panel"><h3>🚀 Extras</h3><div class="extrasgrid">
+<div class="extraCard"><h4>🎁 Baús</h4><p id="chestText">Baú disponível a cada 100.000 moedas ganhas.</p><button class="extraBtn" id="chestBtn">Abrir baú</button></div>
+<div class="extraCard"><h4>🌳 Árvore de Evolução</h4><p id="treeText">Escolha seu caminho permanente.</p><div class="choice"><button id="treeClick">👆 Caminho do Clique</button><button id="treeAuto">🤖 Caminho Automático</button><button id="treeLuck">🍀 Caminho da Sorte</button></div></div>
+<div class="extraCard"><h4>🧪 Laboratório</h4><p>Combine recursos para criar um bônus temporário.</p><button class="extraBtn" id="labBtn">🧪 Criar mistura</button><div class="labResult" id="labResult"></div></div>
+<div class="extraCard"><h4>🐾 Mascote</h4><div class="pet"><span class="big" id="petEmoji">🥚</span><div><b id="petName">Sem mascote</b><p id="petDesc">Abra baús para encontrar mascotes.</p></div></div><button class="extraBtn" id="petBtn">Escolher mascote</button></div>
+<div class="extraCard"><h4>🏅 Título</h4><p>Seu título acompanha sua evolução.</p><b id="titleName">Novato</b></div>
+</div></div></div>
+<div class="list" id="list-s" style="display:none">
+        <div class="panel">
+          <h3>📊 Seu perfil</h3>
+          <div class="statgrid">
+            <div class="statbox">🖱️ Cliques<b id="pClicks">0</b></div>
+            <div class="statbox">🪙 Total ganho<b id="pTotal">0</b></div>
+            <div class="statbox">💎 Prestígios<b id="pPrestige">0</b></div>
+            <div class="statbox">⭐ Estrelas<b id="pStars">0</b></div>
+            <div class="statbox">🔥 Maior combo<b id="pCombo">0</b></div>
+            <div class="statbox">🏆 Conquistas<b id="pAch">0</b></div>
+          </div>
+        </div>
+      </div>
+      <div class="foot"><button class="small" id="buyAll">🚀 Comprar tudo que der</button><button class="small" id="reset">↺ Reiniciar</button></div>
+    </div>
+  </div>
+</div>
+
+<div id="star">⭐</div><div id="toast"></div>
+<div class="modal" id="modal"><div class="modalbox"><h2>💎 Prestígio!</h2><p id="modalText"></p><button id="confirmPrestige">Confirmar</button><button id="cancelPrestige">Cancelar</button></div></div>
+
+<script>
+'use strict';
+const $=id=>document.getElementById(id), SAVE_KEY='moeda-infinita-evo-v2';
+
+const EVO=[
+{n:'Iniciante',at:0,h:210,e:'🪙'},{n:'Aprendiz',at:1e3,h:150,e:'📚'},{n:'Trabalhador',at:2e4,h:30,e:'🔨'},
+{n:'Empresário',at:3e5,h:270,e:'💼'},{n:'Magnata',at:4e6,h:340,e:'🎩'},{n:'Milionário',at:5e7,h:45,e:'💰'},
+{n:'Bilionário',at:1e9,h:180,e:'💎'},{n:'Rei',at:2e10,h:300,e:'🤴'},{n:'Imperador',at:4e11,h:0,e:'👑'},{n:'Lenda',at:1e13,h:60,e:'🌟'},
+{n:'Supremo',at:5e14,h:275,e:'👑'},{n:'Cósmico',at:2e16,h:215,e:'🌠'},{n:'Solar',at:1e18,h:45,e:'☀️'},{n:'Planetário',at:1e20,h:210,e:'🪐'},
+{n:'Arco-Íris',at:1e22,h:300,e:'🌈'},{n:'Elétrico',at:1e24,h:55,e:'⚡'},{n:'Cristalino',at:1e26,h:190,e:'💠'},{n:'Místico',at:1e28,h:275,e:'🧿'},
+{n:'Lendário',at:1e30,h:35,e:'🏆'},{n:'Extraterrestre',at:1e32,h:125,e:'🛸'},{n:'Vulcânico',at:1e34,h:15,e:'🌋'},{n:'Evoluído',at:1e36,h:145,e:'🧬'},
+{n:'Celestial',at:1e38,h:220,e:'✨'},{n:'Guardião',at:1e40,h:285,e:'🛡️'},{n:'Titânico',at:1e42,h:20,e:'⚔️'},{n:'Mítico',at:1e44,h:260,e:'🔮'},
+{n:'Ancestral',at:1e46,h:170,e:'🏛️'},{n:'Divino',at:1e48,h:45,e:'😇'},{n:'Eterno',at:1e50,h:300,e:'♾️'},{n:'Transcendente',at:1e52,h:110,e:'🌌'}];
+
+const UPS=[
+{id:'dedo',t:'c',ic:'☝️',n:'Dedo de Ferro',d:'Um dedo mais forte.',b:15,v:1},
+{id:'duplo',t:'c',ic:'✌️',n:'Clique Duplo',d:'Dois dedos, mais moedas.',b:120,v:5},
+{id:'luva',t:'c',ic:'🧤',n:'Luva Especial',d:'Luva com bônus.',b:1200,v:40},
+{id:'super',t:'c',ic:'💥',n:'Super Clique',d:'Cliques explosivos.',b:12000,v:300},
+{id:'punho',t:'c',ic:'👊',n:'Punho de Aço',d:'Impacto de metal.',b:130000,v:2500},
+{id:'mao',t:'c',ic:'🖐️',n:'Mão Dourada',d:'Tudo que toca vira ouro.',b:1.4e6,v:2e4},
+{id:'midas',t:'c',ic:'✨',n:'Toque de Midas',d:'O toque lendário.',b:2e7,v:2e5},
+{id:'energia',t:'c',ic:'⚡',n:'Energia Cósmica',d:'Cada clique libera energia.',b:3e8,v:2e6},
+{id:'cristal',t:'c',ic:'🔮',n:'Cristal do Poder',d:'Um clique carregado de poder.',b:5e9,v:2e7},
+{id:'laser',t:'c',ic:'🔴',n:'Dedo Laser',d:'Cliques com energia concentrada.',b:8e10,v:2e8},
+{id:'meteoro',t:'c',ic:'☄️',n:'Clique Meteoro',d:'Cada toque cai como um meteoro.',b:1.3e12,v:2e9},
+{id:'galaxia',t:'c',ic:'🌌',n:'Mão Galáctica',d:'O poder de uma galáxia em cada clique.',b:2e13,v:2.2e10},
+{id:'universo',t:'c',ic:'🌠',n:'Clique Universal',d:'O universo inteiro ajuda no clique.',b:3.5e14,v:2.5e11},
+{id:'dimensao',t:'c',ic:'🌀',n:'Mão Dimensional',d:'Clique através de várias dimensões.',b:6e15,v:3e12},
+{id:'infinito',t:'c',ic:'♾️',n:'Toque Infinito',d:'Um poder que parece não ter fim.',b:1e17,v:4e13},
+{id:'deus',t:'c',ic:'👑',n:'Clique Divino',d:'O auge do poder de clique.',b:2e18,v:6e14},
+{id:'criador',t:'c',ic:'🌟',n:'Mão do Criador',d:'Cada toque cria uma fortuna.',b:4e19,v:9e15},
+{id:'robo',t:'a',ic:'🤖',n:'Robô Clicador',d:'Clica por você.',b:60,v:1},
+{id:'est',t:'a',ic:'🧑‍💼',n:'Estagiário',d:'Trabalha sem reclamar.',b:500,v:8},
+{id:'fab',t:'a',ic:'🏭',n:'Fábrica de Moedas',d:'Produção em série.',b:4000,v:50},
+{id:'maq',t:'a',ic:'⚙️',n:'Máquina Automática',d:'Nunca para.',b:25000,v:320},
+{id:'exe',t:'a',ic:'🦾',n:'Exército de Robôs',d:'Milhares de clicadores.',b:2.5e5,v:2200},
+{id:'mina',t:'a',ic:'⛏️',n:'Mina de Ouro',d:'Ouro direto da terra.',b:3e6,v:16000},
+{id:'banco',t:'a',ic:'🏦',n:'Banco Central',d:'Juros infinitos.',b:4e7,v:1.2e5},
+{id:'imp',t:'a',ic:'🏰',n:'Império das Moedas',d:'Domínio total.',b:6e8,v:1e6},
+{id:'portal',t:'a',ic:'🌀',n:'Portal Dimensional',d:'Moedas de outros mundos.',b:1e10,v:9e6},
+{id:'tempo',t:'a',ic:'⏳',n:'Máquina do Tempo',d:'Moedas do futuro.',b:2e11,v:8e7},
+{id:'reator',t:'a',ic:'☢️',n:'Reator de Moedas',d:'Energia contínua gera moedas.',b:3e12,v:6e8},
+{id:'planeta',t:'a',ic:'🪐',n:'Planeta Minerador',d:'Um planeta inteiro produz riqueza.',b:5e13,v:5e9},
+{id:'galaxiaauto',t:'a',ic:'🌌',n:'Fábrica Galáctica',d:'Uma galáxia trabalhando sem parar.',b:8e14,v:4e10},
+{id:'buraco',t:'a',ic:'🕳️',n:'Buraco Negro',d:'Transforma energia em moedas.',b:1.3e16,v:3.5e11},
+{id:'dimauto',t:'a',ic:'🌀',n:'Usina Dimensional',d:'Produção em várias dimensões.',b:2e17,v:3e12},
+{id:'tempo2',t:'a',ic:'⌛',n:'Império Temporal',d:'Produz moedas em todos os tempos.',b:3.5e18,v:2.5e13},
+{id:'multiverso',t:'a',ic:'🌐',n:'Multiverso Industrial',d:'Milhares de realidades produzindo moedas.',b:6e19,v:2e14},
+{id:'infinita',t:'a',ic:'♾️',n:'Fábrica Infinita',d:'Uma produção que nunca para.',b:1e21,v:1.6e15},
+{id:'criacao',t:'a',ic:'✨',n:'Motor da Criação',d:'Cria moedas em escala absurda.',b:2e22,v:1.3e16},
+{id:'eterno',t:'a',ic:'👑',n:'Império Eterno',d:'A maior máquina de moedas.',b:4e23,v:1.1e17},
+
+{id:'nucleo',t:'c',ic:'🔷',n:'Núcleo Estelar',d:'Um núcleo de estrela em cada toque.',b:7e20,v:1.5e17},
+{id:'supernova',t:'c',ic:'💫',n:'Clique Supernova',d:'Uma explosão de poder por clique.',b:1.2e22,v:2.5e18},
+{id:'quasar',t:'c',ic:'🌟',n:'Toque Quasar',d:'Energia de quasar concentrada.',b:2e23,v:4e19},
+{id:'tita',t:'c',ic:'🗿',n:'Mão de Titã',d:'Força de um titã em cada clique.',b:4e24,v:7e20},
+{id:'realidade',t:'c',ic:'🪞',n:'Quebra-Realidade',d:'Cada toque dobra a realidade.',b:8e25,v:1.2e22},
+{id:'tempc',t:'c',ic:'⌚',n:'Toque Temporal',d:'Um clique atravessa o tempo.',b:1.6e27,v:2e23},
+{id:'antimateria',t:'c',ic:'⚛️',n:'Antimatéria',d:'Energia extrema em um único toque.',b:3.2e28,v:4e24},
+{id:'dimc',t:'c',ic:'🔱',n:'Mão das Dimensões',d:'Poder reunido de várias dimensões.',b:6.5e29,v:8e25},
+{id:'absoluto',t:'c',ic:'☯️',n:'Clique Absoluto',d:'Quase nada supera este clique.',b:1.3e31,v:1.6e27},
+{id:'infinito2',t:'c',ic:'♾️',n:'Toque do Infinito',d:'O último grande salto do clique.',b:2.6e32,v:3.2e28},
+
+{id:'estrelaauto',t:'a',ic:'⭐',n:'Estação Estelar',d:'Uma estação inteira produz moedas.',b:7e20,v:9e16},
+{id:'supernovaauto',t:'a',ic:'💥',n:'Usina Supernova',d:'Explosões estelares viram moedas.',b:1.2e22,v:7e17},
+{id:'quasarauto',t:'a',ic:'🌟',n:'Motor Quasar',d:'Energia de quasar em produção contínua.',b:2e23,v:5e18},
+{id:'titaauto',t:'a',ic:'🗿',n:'Colônia de Titãs',d:'Titãs trabalhando para seu império.',b:4e24,v:3.5e19},
+{id:'realauto',t:'a',ic:'🪞',n:'Fábrica da Realidade',d:'Cria recursos diretamente da realidade.',b:8e25,v:2.5e20},
+{id:'tempoauto',t:'a',ic:'⌚',n:'Reator Temporal',d:'Produz moedas em passado e futuro.',b:1.6e27,v:1.8e21},
+{id:'antiauto',t:'a',ic:'⚛️',n:'Usina de Antimatéria',d:'Energia absurda em produção automática.',b:3.2e28,v:1.3e22},
+{id:'dimauto2',t:'a',ic:'🔱',n:'Império Multidimensional',d:'Produção em incontáveis dimensões.',b:6.5e29,v:9e22},
+{id:'abauto',t:'a',ic:'☯️',n:'Máquina Absoluta',d:'Uma máquina quase impossível de superar.',b:1.3e31,v:6e23},
+{id:'infauto2',t:'a',ic:'♾️',n:'Motor do Infinito',d:'Produção automática no limite do impossível.',b:2.6e32,v:4e24}];
+
+const ACH=[
+{n:'Primeiro clique',d:'Clique 1 vez',f:s=>s.clicks>=1},{n:'100 moedas',d:'Ganhe 100',f:s=>s.total>=100},
+{n:'1.000 moedas',d:'Ganhe 1.000',f:s=>s.total>=1e3},{n:'10.000 moedas',d:'Ganhe 10.000',f:s=>s.total>=1e4},
+{n:'1 milhão',d:'Ganhe 1M',f:s=>s.total>=1e6},{n:'1.000 cliques',d:'Clique 1.000 vezes',f:s=>s.clicks>=1e3},
+{n:'Mestre do clique',d:'10.000 cliques',f:s=>s.clicks>=1e4},{n:'Combo máximo',d:'Combo de 60',f:s=>s.maxCombo>=60},
+{n:'Comprador',d:'Compre 10 melhorias',f:s=>lvSum()>=10},{n:'Caçador de estrelas',d:'Pegue 5 estrelas',f:s=>s.stars>=5},
+{n:'Bilionário',d:'Ganhe 1 bilhão',f:s=>s.total>=1e9},{n:'Lenda viva',d:'Chegue à Lenda',f:s=>evoIdx()>=9},
+{n:'Renascido',d:'Faça um prestígio',f:s=>s.prestige>=1}];
+
+const MISS=[
+{id:'mclick',n:'Dedos aquecidos',d:'Faça 100 cliques',goal:100,reward:500,f:s=>s.clicks},
+{id:'mcoin',n:'Pequena fortuna',d:'Ganhe 10.000 moedas',goal:1e4,reward:2500,f:s=>s.total},
+{id:'mbuy',n:'Investidor',d:'Compre 5 melhorias',goal:5,reward:5000,f:s=>lvSum()},
+{id:'mstar',n:'Caçador',d:'Pegue 1 estrela',goal:1,reward:10000,f:s=>s.stars},
+{id:'mprest',n:'Recomeço',d:'Faça 1 prestígio',goal:1,reward:25000,f:s=>s.prestige}];
+
+const fresh=()=>({coins:0,total:0,clicks:0,lv:{},ach:{},stars:0,maxCombo:0,gems:0,prestige:0,missions:{},chests:0,nextChest:100000,tree:'',pet:'',lab:0,labReady:0,lastSave:Date.now()});
+let S=fresh();
+try{const r=JSON.parse(localStorage.getItem(SAVE_KEY));if(r&&typeof r==='object'){S=Object.assign(fresh(),r);S.lv=S.lv&&typeof S.lv==='object'?S.lv:{};S.ach=S.ach&&typeof S.ach==='object'?S.ach:{};S.missions=S.missions&&typeof S.missions==='object'?S.missions:{};S.chests=Number(S.chests)||0;S.nextChest=Number(S.nextChest)||100000;S.tree=typeof S.tree==='string'?S.tree:'';S.pet=typeof S.pet==='string'?S.pet:'';S.lab=Number(S.lab)||0;S.labReady=Number(S.labReady)||0}}catch(e){console.warn('Save incompatível ou corrompido; usando estado novo.',e)}
+let combo=0,lastClick=0,buffs={},lastEvo=0,bonusCooldown=0;
+
+const lv=id=>S.lv[id]||0, lvSum=()=>Object.values(S.lv).reduce((a,b)=>a+b,0);
+const evoIdx=()=>{let i=0;EVO.forEach((e,k)=>{if(S.total>=e.at)i=k});return i};
+const prestigeMult=()=>1+S.gems*.02+S.prestige*.05;
+const gMult=()=>((1+.1*evoIdx())*(1+.01*Object.keys(S.ach).length))*prestigeMult();
+const cost=u=>Math.ceil(u.b*Math.pow(1.15,lv(u.id)));
+const comboMult=()=>1+Math.min(combo,60)*.05;
+const active=k=>buffs[k]&&buffs[k]>Date.now();
+function baseClick(){let v=1;UPS.forEach(u=>{if(u.t==='c')v+=u.v*lv(u.id)});return v*gMult()*petMult('clk')*treeMult('click')}
+function cps(){let v=0;UPS.forEach(u=>{if(u.t==='a')v+=u.v*lv(u.id)});return v*gMult()*petMult('auto')*treeMult('auto')*(active('cps')?buffs.cpsX:1)}
+function clickGain(){return baseClick()*comboMult()*(active('clk')?(buffs.clkX||5):1)}
+function add(n){if(!Number.isFinite(n)||n<=0)return;S.coins+=n;S.total+=n}
+function fmt(n){if(!Number.isFinite(n))return '∞';if(n<1000)return n<10&&n%1?n.toFixed(1):Math.floor(n)+'';const s=['','K','M','B','T','Qa','Qi','Sx','Sp','Oc','No','Dc'],i=Math.min(Math.floor(Math.log10(n)/3),s.length-1),v=n/10**(3*i);return v.toFixed(v<10?2:v<100?1:0)+s[i]}
+function toast(t){const e=$('toast');e.textContent=t;e.classList.add('show');clearTimeout(toast.t);toast.t=setTimeout(()=>e.classList.remove('show'),2500)}
+function floatText(t,x,y,c){const d=document.createElement('div');d.className='fl';d.textContent=t;d.style.left=(x-20+Math.random()*40)+'px';d.style.top=(y-30)+'px';if(c)d.style.color=c;document.body.appendChild(d);setTimeout(()=>d.remove(),1000)}
+function save(){try{S.lastSave=Date.now();localStorage.setItem(SAVE_KEY,JSON.stringify(S))}catch(e){}}
+
+function build(){
+UPS.forEach(u=>{const c=document.createElement('div');c.className='card';c.id='u-'+u.id;c.innerHTML=`<div class="ic">${u.ic}</div><div><b>${u.n} <span class="lv"></span></b><small>${u.d}</small><span class="fx">${u.t==='c'?'+'+fmt(u.v)+' por clique':'+'+fmt(u.v)+' moedas/s'}</span></div><div class="buybox"><button class="qtybtn minus">−</button><span class="qty">1</span><button class="qtybtn plus">+</button><button class="buy">🪙 0</button><button class="maxbtn">MAX</button></div>`;
+const q=c.querySelector('.qty');const setQty=n=>{n=Math.max(1,Math.min(999,n));q.textContent=n};c.querySelector('.minus').onclick=()=>setQty(+q.textContent-1);c.querySelector('.plus').onclick=()=>setQty(+q.textContent+1);c.querySelector('.buy').onclick=()=>buy(u,+q.textContent);c.querySelector('.maxbtn').onclick=()=>buyMax(u);$('list-'+u.t).appendChild(c)});
+$('ach').innerHTML=ACH.map((a,i)=>`<div id="a${i}">🏆 <b>${a.n}</b><br>${a.d}</div>`).join('');
+}
+
+function maxAffordable(u){let money=S.coins,n=0,l=lv(u.id);while(n<999&&money>=Math.ceil(u.b*Math.pow(1.15,l+n))){money-=Math.ceil(u.b*Math.pow(1.15,l+n));n++}return n}
+function buy(u,amount=1){amount=Math.max(1,Math.floor(amount));let bought=0;for(let i=0;i<amount;i++){const c=cost(u);if(S.coins<c)break;S.coins-=c;S.lv[u.id]=lv(u.id)+1;bought++}if(!bought){toast('❌ Moedas insuficientes');return}const el=$('u-'+u.id);el.classList.remove('pulse');void el.offsetWidth;el.classList.add('pulse');const r=el.getBoundingClientRect();floatText(u.ic+' +'+bought,r.right-60,r.top,'#7dffb0');render();save()}
+function buyMax(u){const n=maxAffordable(u);if(!n){toast('❌ Moedas insuficientes');return}buy(u,n)}
+function buyAll(){let total=0;UPS.forEach(u=>{const n=maxAffordable(u);if(n){buy(u,n);total+=n}});if(total)toast('🚀 '+total+' melhorias compradas!');else toast('❌ Nenhuma melhoria disponível');render();save()}
+
+function missionRender(){
+$('missions').innerHTML=MISS.map((m,i)=>{const cur=Math.min(m.goal,m.f(S));const done=!!S.missions[m.id];return `<div class="mission"><div>🎯</div><div><b>${m.n}</b><small>${m.d}<br>${fmt(cur)} / ${fmt(m.goal)} • Recompensa: 🪙 ${fmt(m.reward)}</small></div><button class="claim ${cur>=m.goal&&!done?'can':''}" data-mi="${i}" ${cur>=m.goal&&!done?'':'disabled'}>${done?'✓':'Resgatar'}</button></div>`}).join('');
+document.querySelectorAll('.claim').forEach(b=>b.onclick=()=>{const m=MISS[+b.dataset.mi];if(!S.missions[m.id]&&m.f(S)>=m.goal){S.missions[m.id]=1;add(m.reward);toast('🎯 Missão concluída! +'+fmt(m.reward));render();save()}});
+}
+
+const PETS={gato:{e:'🐱',n:'Gato',d:'+5% nos cliques',clk:1.05,auto:1,luck:1},cao:{e:'🐶',n:'Cachorro',d:'+5% na produção automática',clk:1,auto:1.05,luck:1},dragao:{e:'🐉',n:'Dragão',d:'+15% em toda produção',clk:1.15,auto:1.15,luck:1},alien:{e:'👽',n:'Alien',d:'+25% em recompensas de eventos',clk:1,auto:1,luck:1.25}};
+const TREE={click:{n:'Caminho do Clique',d:'+10% por nível de árvore'},auto:{n:'Caminho Automático',d:'+10% produção automática'},luck:{n:'Caminho da Sorte',d:'+10% recompensas de eventos'}};
+function titleName(){const e=evoIdx();return e>=29?'🌌 Transcendente':e>=27?'😇 Divino':e>=25?'🔮 Mítico':e>=23?'🛡️ Guardião':e>=21?'🧬 Evoluído':e>=19?'🏆 Lendário':e>=17?'🧿 Místico':e>=15?'💠 Cristalino':e>=13?'🌈 Arco-Íris':e>=11?'🌠 Cósmico':e>=9?'🌟 Lenda':e>=7?'🤴 Rei':e>=6?'💎 Bilionário':e>=4?'🎩 Magnata':e>=2?'🔨 Trabalhador':'🪙 Novato'}
+function petMult(k){const p=PETS[S.pet];if(!p)return 1;return p[k]||1}
+function treeMult(k){return S.tree===k?1.1:1}
+function rewardMult(){return petMult('luck')*treeMult('luck')*(active('luck')?(buffs.luckX||2):1)}
+function chestReady(){return S.total>=S.nextChest}
+function openChest(){if(!chestReady()){toast('🔒 O próximo baú chega em '+fmt(S.nextChest-S.total)+' moedas');return}S.chests++;S.nextChest*=10;const rolls=[['🪙',Math.max(1000,cps()*20)],['💎',Math.max(1,Math.floor(Math.sqrt(Math.max(1,S.total))/100))],['⚡',0],['🐾',0]];const pick=rolls[Math.floor(Math.random()*rolls.length)];
+if(pick[0]==='🪙')pick[1]*=rewardMult();
+if(pick[0]==='💎')pick[1]=Math.max(1,Math.floor(pick[1]*rewardMult()));if(pick[0]==='⚡'){buffs.cps=Date.now()+30000;buffs.cpsX=5;toast('⚡ BAÚ ÉPICO! Produção x5 por 30s')}else if(pick[0]==='🐾'){const keys=Object.keys(PETS);S.pet=keys[Math.floor(Math.random()*keys.length)];toast('🐾 Novo mascote: '+PETS[S.pet].n+'!')}else if(pick[0]==='💎'){S.gems+=pick[1];toast('💎 Baú! +'+pick[1]+' Gemas')}else{add(pick[1]);toast('🎁 Baú! +'+fmt(pick[1])+' moedas')}render();save()}
+function chooseTree(k){if(S.tree&&S.tree!==k){toast('🌳 Você já escolheu um caminho nesta jornada. Use prestígio para escolher novamente.');return}if(!S.tree){S.tree=k;toast('🌳 Caminho escolhido: '+TREE[k].n);render();save()}}
+function useLab(){if(Date.now()<S.labReady){toast('🧪 Laboratório pronto em '+Math.ceil((S.labReady-Date.now())/1000)+'s');return}const options=[['⚗️ Clique x3 por 20s','clk',3],['⚗️ Produção x4 por 20s','cps',4],['⚗️ Recompensas x2 por 30s','luck',2]];const o=options[Math.floor(Math.random()*options.length)];buffs[o[1]]=Date.now()+(o[1]==='cps'?20000:30000);if(o[1]==='cps')buffs.cpsX=o[2];if(o[1]==='clk')buffs.clkX=o[2];if(o[1]==='luck')buffs.luckX=o[2];S.lab++;S.labReady=Date.now()+30000;$('labResult').textContent=o[0];toast('🧪 Laboratório: '+o[0]);render();save()}
+function renderExtras(){const cb=$('chestBtn');if(cb){cb.disabled=!chestReady();cb.textContent=chestReady()?'🎁 Abrir baú':'🔒 Baú em '+fmt(S.nextChest-S.total);$('chestText').textContent='Baús abrem a cada meta de moedas. Abertos: '+S.chests;$('treeText').textContent=S.tree?TREE[S.tree].n+' — '+TREE[S.tree].d:'Escolha um caminho. A escolha vale até o próximo prestígio.';['click','auto','luck'].forEach(k=>$('tree'+k[0].toUpperCase()+k.slice(1)).classList.toggle('on',S.tree===k));const p=PETS[S.pet];$('petEmoji').textContent=p?p.e:'🥚';$('petName').textContent=p?p.n:'Sem mascote';$('petDesc').textContent=p?p.d:'Abra baús para encontrar mascotes.';$('titleName').textContent=titleName();const lb=$('labBtn');if(lb){const r=Math.ceil((S.labReady-Date.now())/1000);lb.disabled=r>0;lb.textContent=r>0?'⏳ Laboratório '+r+'s':'🧪 Criar mistura'}}}
+function render(){
+const e=evoIdx(),ev=EVO[e],nx=EVO[e+1];if(e>lastEvo){toast('🎉 EVOLUÇÃO: '+ev.n+'!');lastEvo=e}
+document.documentElement.style.setProperty('--h',ev.h);$('em').textContent=ev.e;
+$('coins').textContent=fmt(S.coins);$('cps').textContent=fmt(cps());$('cpc').textContent=fmt(clickGain());$('gems').textContent=fmt(S.gems);
+$('lvl').textContent=1+Math.floor(Math.log2(S.total/20+1));$('evoName').textContent=ev.e+' '+ev.n;updateButtonTier();
+if(nx){$('evoNext').textContent=fmt(S.total)+' / '+fmt(nx.at)+' → '+nx.n;$('evoBar').style.width=Math.min(100,(S.total-ev.at)/(nx.at-ev.at)*100)+'%'}else{$('evoNext').textContent='Nível máximo!';$('evoBar').style.width='100%'}
+UPS.forEach(u=>{const el=$('u-'+u.id),c=cost(u),l=lv(u.id),mx=maxAffordable(u);el.style.display=(l>0||S.total>=u.b*.35)?'':'none';el.querySelector('.lv').textContent='Nv.'+l;const b=el.querySelector('.buy'),mb=el.querySelector('.maxbtn'),q=el.querySelector('.qty');b.textContent='🪙 '+fmt(c);b.classList.toggle('can',S.coins>=c);b.disabled=S.coins<c;mb.disabled=mx<1;el.querySelector('.qtybtn.minus').disabled=(+q.textContent<=1);});
+ACH.forEach((a,i)=>{if(!S.ach[i]&&a.f(S)){S.ach[i]=1;toast('🏆 Conquista: '+a.n);save()}$('a'+i).classList.toggle('ok',!!S.ach[i])});
+const bf=[];if(active('clk'))bf.push('🔥 Cliques x'+(buffs.clkX||5));if(active('cps'))bf.push('⚡ Produção x'+buffs.cpsX);if(active('luck'))bf.push('🍀 Recompensas x'+(buffs.luckX||2));$('buffs').innerHTML=bf.map(x=>`<span class="buff">${x}</span>`).join('');const bonusBtn=$('bonus'),nowBonus=Date.now();if(nowBonus<bonusCooldown){const rest=Math.ceil((bonusCooldown-nowBonus)/1000);bonusBtn.textContent='⏳ 2x disponível em '+rest+'s';bonusBtn.disabled=true}else{bonusBtn.textContent='🎁 Ativar 2x grátis';bonusBtn.disabled=false}
+const comboText=$('comboText'),comboBar=$('comboBar');if(combo>0){comboText.textContent=combo>=2?`🔥 COMBO x${comboMult().toFixed(2)} • ${combo}`:'Clique novamente para criar combo';comboBar.style.width=Math.min(100,combo/60*100)+'%'}else{comboText.textContent='';comboBar.style.width='0%'}
+const need=Math.max(1e6,1e6*Math.pow(10,S.prestige));$('prestigeText').textContent=`Próximo prestígio: ${fmt(need)} moedas → +${Math.max(1,Math.floor(Math.sqrt(S.total/1e6)))} Gemas. Gemas dão +2% por gema e prestígio +5% permanente.`;
+missionRender();renderExtras();$('pClicks').textContent=fmt(S.clicks);$('pTotal').textContent=fmt(S.total);$('pPrestige').textContent=S.prestige;$('pStars').textContent=S.stars;$('pCombo').textContent=S.maxCombo;$('pAch').textContent=Object.keys(S.ach).length;
+}
+
+const BUTTON_TIERS=[
+{at:0,cls:'',e:'🪙',name:'Botão de Moeda'},
+{at:1e3,cls:'tier2',e:'📚',name:'Botão Aprendiz'},
+{at:2e4,cls:'tier3',e:'🔨',name:'Botão Trabalhador'},
+{at:3e5,cls:'tier4',e:'💼',name:'Botão Empresário'},
+{at:4e6,cls:'tier5',e:'🎩',name:'Botão Magnata'},
+{at:5e7,cls:'tier6',e:'💰',name:'Botão Milionário'},
+{at:1e9,cls:'tier7',e:'💎',name:'Botão Bilionário'},
+{at:2e10,cls:'tier8',e:'🤴',name:'Botão Rei'},
+{at:4e11,cls:'tier9',e:'👑',name:'Botão Imperador'},
+{at:1e13,cls:'tier10',e:'🌟',name:'Botão Lenda'},
+{at:5e14,cls:'tier11',e:'👑',name:'Botão Supremo'},
+{at:2e16,cls:'tier12',e:'🌠',name:'Botão Cósmico'},
+{at:1e18,cls:'tier13',e:'☀️',name:'Botão Solar'},
+{at:1e20,cls:'tier14',e:'🪐',name:'Botão Planetário'},
+{at:1e22,cls:'tier15',e:'🌈',name:'Botão Arco-Íris'},
+{at:1e24,cls:'tier16',e:'⚡',name:'Botão Elétrico'},
+{at:1e26,cls:'tier17',e:'💠',name:'Botão Cristalino'},
+{at:1e28,cls:'tier18',e:'🧿',name:'Botão Místico'},
+{at:1e30,cls:'tier19',e:'🏆',name:'Botão Lendário'},
+{at:1e32,cls:'tier20',e:'🛸',name:'Botão Extraterrestre'},
+{at:1e34,cls:'tier21',e:'🌋',name:'Botão Vulcânico'},
+{at:1e36,cls:'tier22',e:'🧬',name:'Botão Evoluído'},
+{at:1e38,cls:'tier23',e:'✨',name:'Botão Celestial'},
+{at:1e40,cls:'tier24',e:'🛡️',name:'Botão Guardião'},
+{at:1e42,cls:'tier25',e:'⚔️',name:'Botão Titânico'},
+{at:1e44,cls:'tier26',e:'🔮',name:'Botão Mítico'},
+{at:1e46,cls:'tier27',e:'🏛️',name:'Botão Ancestral'},
+{at:1e48,cls:'tier28',e:'😇',name:'Botão Divino'},
+{at:1e50,cls:'tier29',e:'♾️',name:'Botão Eterno'},
+{at:1e52,cls:'tier30',e:'🌌',name:'Botão Transcendente'}
+];
+
+function buttonTier(){
+let t=BUTTON_TIERS[0];
+BUTTON_TIERS.forEach(x=>{if(S.total>=x.at)t=x});
+return t
+}
+
+function updateButtonTier(){
+const t=buttonTier();
+const btn=$('btn');
+Array.from({length:29},(_,i)=>'tier'+(i+2)).forEach(c=>btn.classList.remove(c));
+if(t.cls)btn.classList.add(t.cls);
+$('em').textContent=t.e;
+btn.title=t.name
+}
+
+function doClick(x,y){const n=Date.now();combo=n-lastClick<1200?combo+1:1;lastClick=n;S.maxCombo=Math.max(S.maxCombo,combo);S.clicks++;const g=clickGain();add(g);floatText('+'+fmt(g),x,y,combo>=20?'#ffd34d':'#fff');const b=$('btn');b.classList.add('p');setTimeout(()=>b.classList.remove('p'),80);render()}
+$('btn').addEventListener('pointerdown',e=>{e.preventDefault();doClick(e.clientX,e.clientY)});
+$('btn').addEventListener('keydown',e=>{if(e.key===' '||e.key==='Enter'){e.preventDefault();const r=$('btn').getBoundingClientRect();doClick(r.left+r.width/2,r.top+r.height/2)}});
+$('btn').addEventListener('click',e=>e.preventDefault());
+
+document.querySelectorAll('.tabs button').forEach(b=>b.onclick=()=>{document.querySelectorAll('.tabs button').forEach(x=>x.classList.toggle('on',x===b));['c','a','m','q','s','x'].forEach(t=>$('list-'+t).style.display=t===b.dataset.t?'':'none')});
+$('chestBtn').onclick=openChest;$('treeClick').onclick=()=>chooseTree('click');$('treeAuto').onclick=()=>chooseTree('auto');$('treeLuck').onclick=()=>chooseTree('luck');$('labBtn').onclick=useLab;$('petBtn').onclick=()=>{if(!S.pet){const keys=Object.keys(PETS);S.pet=keys[Math.floor(Math.random()*keys.length)];toast('🐾 Mascote encontrado: '+PETS[S.pet].n);render();save()}else toast('🐾 Seu mascote atual é '+PETS[S.pet].n)};
+$('reset').onclick=()=>{if(confirm('Tem certeza? Todo o progresso será apagado!')){localStorage.removeItem(SAVE_KEY);S=fresh();buffs={};combo=0;lastEvo=0;render();toast('Progresso reiniciado')}};
+
+$('bonus').onclick=()=>{const now=Date.now();if(now<bonusCooldown){const rest=Math.ceil((bonusCooldown-now)/1000);toast('⏳ Aguarde '+rest+'s para usar o 2x novamente');return}buffs.cps=now+30000;buffs.cpsX=2;bonusCooldown=now+60000;toast('🎁 Produção x2 ativada por 30s!');render()};
+function prestigeValue(){return Math.max(1,Math.floor(Math.sqrt(S.total/1e6)))}
+$('prestige').onclick=()=>{const need=Math.max(1e6,1e6*Math.pow(10,S.prestige));if(S.total<need){toast('❌ Você precisa de '+fmt(need)+' moedas');return}const g=prestigeValue();$('modalText').textContent=`Você receberá ${g} 💎. Seu dinheiro e melhorias serão reiniciados, mas as Gemas, conquistas e prestígios continuarão.`;$('modal').classList.add('show')};
+$('cancelPrestige').onclick=()=>$('modal').classList.remove('show');
+$('confirmPrestige').onclick=()=>{const g=prestigeValue();S.gems+=g;S.prestige++;S.coins=0;S.total=0;S.lv={};S.missions={};combo=0;lastEvo=0;$('modal').classList.remove('show');toast('💎 Prestígio realizado! +'+g+' Gemas');render();save()};
+
+$('buyAll').onclick=buyAll;
+
+function randomEvent(){const r=Math.random();if(r<.34){buffs.cps=Date.now()+20000;buffs.cpsX=3;toast('🌧️ Chuva de Moedas! Produção x3 por 20s')}else if(r<.67){buffs.clk=Date.now()+15000;toast('🔥 Frenesi! Cliques x5 por 15s')}else{const g=Math.max(cps()*30,clickGain()*50)*rewardMult();add(g);toast('🍀 Sorte grande! +'+fmt(g))}schedule(randomEvent,45000,90000)}
+function superClick(){const s=$('star');s.style.left=10+Math.random()*75+'vw';s.style.top=20+Math.random()*60+'vh';s.style.display='block';clearTimeout(superClick.t);superClick.t=setTimeout(()=>{s.style.display='none';schedule(superClick,30000,60000)},8000)}
+$('star').onpointerdown=e=>{e.preventDefault();clearTimeout(superClick.t);$('star').style.display='none';const g=Math.max(cps()*120,clickGain()*100);add(g);S.stars++;floatText('SUPER CLIQUE +'+fmt(g),e.clientX,e.clientY,'#ffd34d');toast('⭐ SUPER CLIQUE! +'+fmt(g));schedule(superClick,30000,60000);render();save()};
+function schedule(fn,a,b){setTimeout(fn,a+Math.random()*(b-a))}
+
+let lastTick=Date.now();
+setInterval(()=>{const n=Date.now(),dt=Math.min(2,(n-lastTick)/1000);lastTick=n;add(cps()*dt);if(n-lastClick>1200&&combo>0){combo=0;render()}render()},250);
+setInterval(save,5000);window.addEventListener('beforeunload',save);document.addEventListener('visibilitychange',()=>{if(document.hidden)save()});
+
+build();lastEvo=evoIdx();render();schedule(randomEvent,30000,60000);schedule(superClick,20000,40000);
+</script>
+</body>
+</html>
